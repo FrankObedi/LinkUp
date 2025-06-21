@@ -71,12 +71,6 @@ Drop us a message or contribute!
 
 ---
 
-## 👥 Team
-
-Built with ❤️ at SpurHacks 2025 by [Your Name] and friends.
-
----
-
 ## 📄 License
 
 MIT
