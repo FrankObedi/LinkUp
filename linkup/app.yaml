@@ -1,0 +1,24 @@
+runtime: nodejs18
+
+env_variables:
+  NODE_ENV: production
+
+automatic_scaling:
+  min_instances: 0
+  max_instances: 10
+  target_cpu_utilization: 0.6
+
+handlers:
+  - url: /_next/static
+    static_dir: .next/static
+    expiration: 1y
+
+  - url: /(.*\.(gif|png|jpg|ico|svg|webp|js|css|woff|woff2))$
+    static_files: public/\1
+    upload: public/.*\.(gif|png|jpg|ico|svg|webp|js|css|woff|woff2)$
+    expiration: 1y
+
+  - url: /.*
+    script: auto
+    secure: always
+    redirect_http_response_code: 301 
