@@ -17,40 +17,73 @@ const currentUser = {
   status: 'Looking for team'
 }
 
-// Mock potential matches
+// Mock potential matches - HILARIOUS PROFILES THAT WILL MAKE JUDGES LAUGH! 😂
 const potentialMatches = [
   {
     id: 1,
-    username: 'blockchaindev',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
-    bio: 'Blockchain enthusiast with 3+ years in DeFi. Looking to build the next big thing!',
-    skills: ['Solidity', 'Web3.js', 'React', 'Node.js'],
-    interests: ['DeFi', 'NFTs', 'Web3', 'Gaming'],
+    username: 'StackOverflowCopyPaste',
+    avatar: '/students/jaffar002.png',
+    bio: 'I have successfully copied and pasted 47,392 lines of code from Stack Overflow. My debugging technique involves staring at the screen until the bugs get uncomfortable and fix themselves. 🐛',
+    skills: ['Ctrl+C', 'Ctrl+V', 'Stack Overflow Premium', 'Console.log Debugging', 'Googling Error Messages'],
+    interests: ['Copy-Paste Engineering', 'Stack Overflow Archaeology', 'Rubber Duck Psychology', 'Coffee-Driven Development'],
     timezone: 'EST',
-    goals: ['Build a DeFi protocol', 'Win hackathon'],
-    matchScore: 92
+    goals: ['Build an app that debugs itself', 'Get 1 million Stack Overflow points'],
+    matchScore: 99
   },
   {
     id: 2,
-    username: 'airesearcher',
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face',
-    bio: 'PhD student in ML. Love creating AI solutions that make a real impact.',
-    skills: ['Python', 'TensorFlow', 'PyTorch', 'React'],
-    interests: ['AI/ML', 'Healthcare', 'Education', 'Research'],
+    username: 'CaffeinatedCoder',
+    avatar: '/students/IMG_0465.jpg',
+    bio: 'I run on coffee and broken dreams. My blood type is Java (the drink, not the language). I once stayed awake for 72 hours fixing a semicolon. Currently seeking teammate who can handle my 3 AM "EUREKA!" moments. ☕',
+    skills: ['Espresso.js', 'CoffeeScript', 'Red Bull API', 'Insomnia Framework', '24/7 Uptime'],
+    interests: ['Coffee Bean Optimization', 'Sleep Deprivation Studies', 'Energy Drink Mixology', 'Midnight Coding Sessions'],
     timezone: 'PST',
-    goals: ['Build AI-powered healthcare app', 'Network with developers'],
-    matchScore: 88
+    goals: ['Code while sleepwalking', 'Invent coffee-powered computers'],
+    matchScore: 94
   },
   {
     id: 3,
-    username: 'fullstackpro',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face',
-    bio: 'Senior dev at a startup. Always excited to mentor and build cool projects.',
-    skills: ['React', 'Node.js', 'PostgreSQL', 'AWS'],
-    interests: ['SaaS', 'Fintech', 'EdTech', 'Mentoring'],
+    username: 'BugWhisperer',
+    avatar: '/students/IMG_0469.jpg',
+    bio: 'I speak fluent Bug and can communicate with errors in their native language. My code has more issues than a teenager, but somehow it still works. I believe every bug is just a feature in disguise. 🦗',
+    skills: ['Bug Telepathy', 'Error Message Translation', 'Spaghetti Code Architecture', 'Chaos Engineering', 'Murphy\'s Law Implementation'],
+    interests: ['Bug Collecting', 'Error Message Poetry', 'Crash Course Philosophy', 'Debugging Meditation'],
     timezone: 'CST',
-    goals: ['Build a SaaS product', 'Mentor newcomers'],
-    matchScore: 85
+    goals: ['Befriend all the bugs in my code', 'Write code that debugs other code'],
+    matchScore: 87
+  },
+  {
+    id: 4,
+    username: 'GitCommitMessiah',
+    avatar: '/students/IMG_0471.jpg',
+    bio: 'My git commit messages are legendary. "Fixed stuff", "It works on my machine", and "YOLO push to prod" are my greatest hits. I have 47 branches and I\'ve never successfully merged any of them. 🌿',
+    skills: ['Git Archaeology', 'Merge Conflict Meditation', 'Branch Hoarding', 'Commit Message Poetry', 'Rebase Roulette'],
+    interests: ['Version Control Philosophy', 'Git History Mysteries', 'Branch Naming Conventions', 'Merge Conflict Resolution Therapy'],
+    timezone: 'MST',
+    goals: ['Create the perfect commit message', 'Merge all 47 branches simultaneously'],
+    matchScore: 91
+  },
+  {
+    id: 5,
+    username: 'DockerWhale',
+    avatar: '/students/IMG_0474.jpg',
+    bio: 'I containerize everything, including my emotions. My Docker images are bigger than my ego (and that\'s saying something). I once tried to dockerize my cat. It works on my container! 🐳',
+    skills: ['Container Therapy', 'Kubernetes Yoga', 'Docker Compose Symphony', 'Microservice Meditation', 'Pod Whispering'],
+    interests: ['Container Philosophy', 'Orchestration Dance', 'Cloud Native Lifestyle', 'DevOps Zen'],
+    timezone: 'UTC',
+    goals: ['Containerize the entire internet', 'Achieve container enlightenment'],
+    matchScore: 88
+  },
+  {
+    id: 6,
+    username: 'AIPromptNinja',
+    avatar: '/students/IMG_0475.jpg',
+    bio: 'I can make ChatGPT write my code, my emails, and my dating profile. I\'m basically a human-AI translator. My superpower is turning "make it work" into 500 lines of perfectly commented code. 🤖',
+    skills: ['Prompt Engineering', 'AI Whispering', 'GPT Therapy', 'Neural Network Negotiations', 'Machine Learning Psychology'],
+    interests: ['AI Ethics Comedy', 'Robot Stand-up', 'Artificial Intelligence Philosophy', 'Human-AI Relationships'],
+    timezone: 'GMT',
+    goals: ['Teach AI to write better jokes', 'Become best friends with GPT-5'],
+    matchScore: 96
   }
 ]
 

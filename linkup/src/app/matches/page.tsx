@@ -5,29 +5,29 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Heart, MessageCircle, Users, ArrowLeft, ExternalLink, Calendar, MapPin, Code, Target, Check, X, Copy } from 'lucide-react'
 import Link from 'next/link'
 
-// Mock matches data
+// Mock matches data - HILARIOUS PROFILES! 😂
 const mockMatches = [
   {
     id: 1,
-    username: 'blockchaindev',
-    discord: 'blockchaindev#1234',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
-    bio: 'Blockchain enthusiast with 3+ years in DeFi. Looking to build the next big thing!',
-    skills: ['Solidity', 'Web3.js', 'React', 'Node.js'],
-    interests: ['DeFi', 'NFTs', 'Web3', 'Gaming'],
+    username: 'StackOverflowCopyPaste',
+    discord: 'StackOverflowGod#1337',
+    avatar: '/students/jaffar002.png',
+    bio: 'I have successfully copied and pasted 47,392 lines of code from Stack Overflow. My debugging technique involves staring at the screen until the bugs get uncomfortable and fix themselves. 🐛',
+    skills: ['Ctrl+C', 'Ctrl+V', 'Stack Overflow Premium', 'Console.log Debugging', 'Googling Error Messages'],
+    interests: ['Copy-Paste Engineering', 'Stack Overflow Archaeology', 'Rubber Duck Psychology', 'Coffee-Driven Development'],
     timezone: 'EST',
     matchedAt: '2 hours ago',
     status: 'accepted',
-    lastMessage: "Hey! I love your profile. Let's build something in DeFi!"
+    lastMessage: "Hey! I found the perfect Stack Overflow answer for our project. It only has 47 upvotes but trust me!"
   },
   {
     id: 2,
-    username: 'airesearcher',
-    discord: 'airesearcher#5678',
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face',
-    bio: 'PhD student in ML. Love creating AI solutions that make a real impact.',
-    skills: ['Python', 'TensorFlow', 'PyTorch', 'React'],
-    interests: ['AI/ML', 'Healthcare', 'Education', 'Research'],
+    username: 'CaffeinatedCoder',
+    discord: 'CoffeeOrDie#2424',
+    avatar: '/students/IMG_0465.jpg',
+    bio: 'I run on coffee and broken dreams. My blood type is Java (the drink, not the language). I once stayed awake for 72 hours fixing a semicolon. Currently seeking teammate who can handle my 3 AM "EUREKA!" moments. ☕',
+    skills: ['Espresso.js', 'CoffeeScript', 'Red Bull API', 'Insomnia Framework', '24/7 Uptime'],
+    interests: ['Coffee Bean Optimization', 'Sleep Deprivation Studies', 'Energy Drink Mixology', 'Midnight Coding Sessions'],
     timezone: 'PST',
     matchedAt: '5 hours ago',
     status: 'pending',
@@ -35,16 +35,55 @@ const mockMatches = [
   },
   {
     id: 3,
-    username: 'fullstackpro',
-    discord: 'fullstackpro#9012',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face',
-    bio: 'Senior dev at a startup. Always excited to mentor and build cool projects.',
-    skills: ['React', 'Node.js', 'PostgreSQL', 'AWS'],
-    interests: ['SaaS', 'Fintech', 'EdTech', 'Mentoring'],
+    username: 'BugWhisperer',
+    discord: 'BugTalker#4040',
+    avatar: '/students/IMG_0469.jpg',
+    bio: 'I speak fluent Bug and can communicate with errors in their native language. My code has more issues than a teenager, but somehow it still works. I believe every bug is just a feature in disguise. 🦗',
+    skills: ['Bug Telepathy', 'Error Message Translation', 'Spaghetti Code Architecture', 'Chaos Engineering', 'Murphy\'s Law Implementation'],
+    interests: ['Bug Collecting', 'Error Message Poetry', 'Crash Course Philosophy', 'Debugging Meditation'],
     timezone: 'CST',
     matchedAt: '1 day ago',
     status: 'accepted',
-    lastMessage: "Your project ideas sound amazing! When can we chat?"
+    lastMessage: "My bugs want to collaborate with your bugs! They've been talking behind our backs."
+  },
+  {
+    id: 4,
+    username: 'GitCommitMessiah',
+    discord: 'YOLOcommit#9999',
+    avatar: '/students/IMG_0471.jpg',
+    bio: 'My git commit messages are legendary. "Fixed stuff", "It works on my machine", and "YOLO push to prod" are my greatest hits. I have 47 branches and I\'ve never successfully merged any of them. 🌿',
+    skills: ['Git Archaeology', 'Merge Conflict Meditation', 'Branch Hoarding', 'Commit Message Poetry', 'Rebase Roulette'],
+    interests: ['Version Control Philosophy', 'Git History Mysteries', 'Branch Naming Conventions', 'Merge Conflict Resolution Therapy'],
+    timezone: 'MST',
+    matchedAt: '3 hours ago',
+    status: 'pending',
+    lastMessage: null
+  },
+  {
+    id: 5,
+    username: 'DockerWhale',
+    discord: 'ContainerKing#8080',
+    avatar: '/students/IMG_0474.jpg',
+    bio: 'I containerize everything, including my emotions. My Docker images are bigger than my ego (and that\'s saying something). I once tried to dockerize my cat. It works on my container! 🐳',
+    skills: ['Container Therapy', 'Kubernetes Yoga', 'Docker Compose Symphony', 'Microservice Meditation', 'Pod Whispering'],
+    interests: ['Container Philosophy', 'Orchestration Dance', 'Cloud Native Lifestyle', 'DevOps Zen'],
+    timezone: 'UTC',
+    matchedAt: '6 hours ago',
+    status: 'accepted',
+    lastMessage: "Let's containerize this hackathon! I'll bring the Docker, you bring the whale songs 🐳"
+  },
+  {
+    id: 6,
+    username: 'AIPromptNinja',
+    discord: 'GPTWhisperer#3030',
+    avatar: '/students/IMG_0475.jpg',
+    bio: 'I can make ChatGPT write my code, my emails, and my dating profile. I\'m basically a human-AI translator. My superpower is turning "make it work" into 500 lines of perfectly commented code. 🤖',
+    skills: ['Prompt Engineering', 'AI Whispering', 'GPT Therapy', 'Neural Network Negotiations', 'Machine Learning Psychology'],
+    interests: ['AI Ethics Comedy', 'Robot Stand-up', 'Artificial Intelligence Philosophy', 'Human-AI Relationships'],
+    timezone: 'GMT',
+    matchedAt: '8 hours ago',
+    status: 'accepted',
+    lastMessage: "I asked GPT to write the perfect team-up message, but it just said 'Hello World'. Some things never change!"
   }
 ]
 
