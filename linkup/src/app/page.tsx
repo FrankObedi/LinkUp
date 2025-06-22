@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { Heart, Users, Zap, Shield, ArrowRight, Github, Twitter } from 'lucide-react'
 import Link from 'next/link'
-
+import Logo from '@/app/components/logo/logo'
 export default function HomePage() {
   return (
     <div className="min-h-screen">
@@ -16,13 +16,7 @@ export default function HomePage() {
               animate={{ opacity: 1, x: 0 }}
               className="flex items-center space-x-2"
             >
-              {/* <Heart className="h-8 w-8 text-blue-600 fill-current" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                LinkUp
-              </span> */}
-              <a href='/'>
-                <img src='/img/linkup_logo.png' alt="LinkUp Logo" className="w-[100px] h-auto" />
-              </a>
+              <Logo />
             </motion.div>
             
             <motion.div

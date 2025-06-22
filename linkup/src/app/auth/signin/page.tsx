@@ -4,17 +4,13 @@ import { motion } from 'framer-motion'
 import { Heart, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
+import { signIn } from "next-auth/react"
 
 export default function SignInPage() {
   const [loading, setLoading] = useState(false)
 
   const handleDiscordSignIn = () => {
-    setLoading(true)
-    // Mock Discord authentication - replace with real OAuth
-    setTimeout(() => {
-      // Simulate successful auth and redirect
-      window.location.href = '/dashboard'
-    }, 2000)
+    signIn("discord", { callbackUrl: "/dashboard" })
   }
 
   return (
@@ -113,4 +109,4 @@ export default function SignInPage() {
       </div>
     </div>
   )
-} 
+}

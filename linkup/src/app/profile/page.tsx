@@ -1,10 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Heart, ArrowLeft, Save, Plus, X, MapPin, Clock, Code, Briefcase, Target, User } from 'lucide-react'
+import { ArrowLeft, Save, Plus, X, MapPin, Clock, Code, Briefcase, Target, User } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import Logo from '@/app/components/logo/logo'
+import { useSession } from "next-auth/react"
 
 // Skills database
 const SKILL_OPTIONS = [
@@ -27,25 +29,50 @@ const TIMEZONE_OPTIONS = [
 ]
 
 export default function ProfilePage() {
+  const { data: session } = useSession()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-  const [profileData, setProfileData] = useState({
-    username: 'hackergirl',
-    email: 'hacker@example.com',
-    bio: 'Full-stack developer passionate about AI and blockchain. Looking to build something amazing!',
-    skills: ['React', 'Node.js', 'Python', 'AI/ML'],
-    interests: ['Web3', 'AI', 'Fintech', 'Healthcare'],
-    goals: ['Build a DeFi protocol', 'Learn from others', 'Win prizes'],
-    timezone: 'PST',
-    experience: 'intermediate',
-    lookingFor: ['Frontend Developer', 'UI/UX Designer', 'Backend Developer'],
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face'
+  interface ProfileData {
+    username: string
+    email: string
+    bio: string
+    skills: string[]
+    interests: string[]
+    goals: string[]
+    timezone: string
+    experience: string
+    lookingFor: string[]
+    avatar: string
+  }
+
+  const [profileData, setProfileData] = useState<ProfileData>({
+    username: session?.user?.name || '',
+    email: session?.user?.email || '',
+    bio: '',
+    skills: [],
+    interests: [],
+    goals: [],
+    timezone: '',
+    experience: '',
+    lookingFor: [],
+    avatar: session?.user?.image || ''
   })
 
   const [newSkill, setNewSkill] = useState('')
   const [newInterest, setNewInterest] = useState('')
   const [newGoal, setNewGoal] = useState('')
   const [newLookingFor, setNewLookingFor] = useState('')
+
+  useEffect(() => {
+    if (session) {
+      setProfileData(prev => ({
+        ...prev,
+        username: session.user?.name || prev.username,
+        email: session.user?.email || prev.email,
+        avatar: session.user?.image || prev.avatar,
+      }))
+    }
+  }, [session])
 
   const handleSave = async () => {
     setLoading(true)
@@ -84,12 +111,7 @@ export default function ProfilePage() {
               <Link href="/dashboard" className="text-gray-600 hover:text-gray-900">
                 <ArrowLeft className="h-5 w-5" />
               </Link>
-              <div className="flex items-center space-x-2">
-                <Heart className="h-8 w-8 text-blue-600 fill-current" />
-                <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  LinkUp
-                </span>
-              </div>
+              <Logo />
             </div>
             
             <button
@@ -423,4 +445,4 @@ export default function ProfilePage() {
       </div>
     </div>
   )
-} 
+}
