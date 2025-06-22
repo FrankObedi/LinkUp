@@ -63,26 +63,41 @@ export default function ProfilePage() {
   const [newGoal, setNewGoal] = useState('')
   const [newLookingFor, setNewLookingFor] = useState('')
 
+  // Fetch profile from DB when session is ready
   useEffect(() => {
-    if (session) {
-      setProfileData(prev => ({
-        ...prev,
-        username: session.user?.name || prev.username,
-        email: session.user?.email || prev.email,
-        avatar: session.user?.image || prev.avatar,
-      }))
+    const fetchProfile = async () => {
+      if (session?.user?.email) {
+        setLoading(true)
+        try {
+          const res = await fetch(`/api/profile?email=${encodeURIComponent(session.user.email)}`)
+          if (res.ok) {
+            const data = await res.json()
+            if (data) {
+              setProfileData(prev => ({
+                ...prev,
+                ...data,
+                // fallback to session values if DB values are missing
+                username: data.username || session?.user?.name || prev.username,
+                email: data.email || session?.user?.email || prev.email,
+                avatar: data.avatar || session?.user?.image || prev.avatar,
+              }))
+            }
+          }
+        } catch (err) {
+          console.error("Failed to fetch profile:", err)
+        } finally {
+          setLoading(false)
+        }
+      }
     }
+    fetchProfile()
   }, [session])
 
   const handleSave = async () => {
-    setLoading(true)
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false)
-      // Show success message (in a real app, use toast)
-      alert('Profile updated successfully!')
-      router.push('/dashboard')
-    }, 1500)
+    await saveProfile(profileData, setLoading)
+    // Optionally show a success message or redirect
+    alert('Profile updated successfully!')
+    router.push('/dashboard')
   }
 
   const addItem = (type: 'skills' | 'interests' | 'goals' | 'lookingFor', value: string) => {
@@ -101,6 +116,24 @@ export default function ProfilePage() {
     }))
   }
 
+  async function saveProfile(profileData: ProfileData, setLoading: (b: boolean) => void) {
+    setLoading(true)
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profileData),
+      })
+      if (!res.ok) throw new Error('Failed to save profile')
+      // Optionally handle response here
+    } catch (err) {
+      console.error(err)
+      alert('Failed to save profile!')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Navigation */}
@@ -115,18 +148,13 @@ export default function ProfilePage() {
             </div>
             
             <button
-              onClick={handleSave}
+              type="button"
+              onClick={() => saveProfile(profileData, setLoading)}
               disabled={loading}
               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center space-x-2 disabled:opacity-50"
             >
-              {loading ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />
-              ) : (
-                <>
-                  <Save className="h-4 w-4" />
-                  <span>Save Profile</span>
-                </>
-              )}
+              <Save className="mr-2" />
+              {loading ? "Saving..." : "Save"}
             </button>
           </div>
         </div>
