@@ -92,6 +92,7 @@ export default function DashboardPage() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [matches, setMatches] = useState<number[]>([])
   const [direction, setDirection] = useState<'left' | 'right' | null>(null)
+  const [navOpen, setNavOpen] = useState(false)
 
   const currentCard = potentialMatches[currentIndex]
 
@@ -127,13 +128,26 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
-              <Heart className="h-8 w-8 text-blue-600 fill-current" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                LinkUp
-              </span>
+              <a href='/'>
+                <img src='/img/linkup_logo.png' alt="LinkUp Logo" className="w-[100px] h-auto" />
+              </a>
             </div>
-            
-            <div className="flex items-center space-x-4">
+            {/* Hamburger for mobile */}
+            <button
+              className="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onClick={() => setNavOpen(!navOpen)}
+              aria-label="Toggle navigation"
+            >
+              <svg className="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {navOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+                )}
+              </svg>
+            </button>
+            {/* Desktop nav */}
+            <div className="hidden md:flex items-center space-x-4">
               <Link href="/matches" className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors">
                 <MessageCircle className="h-5 w-5" />
                 <span className="font-medium">Matches</span>
@@ -160,6 +174,35 @@ export default function DashboardPage() {
               </button>
             </div>
           </div>
+          {/* Mobile nav */}
+          {navOpen && (
+            <div className="md:hidden flex flex-col items-center space-y-2 pb-4">
+              <Link href="/matches" className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors">
+                <MessageCircle className="h-5 w-5" />
+                <span className="font-medium">Matches</span>
+                {matches.length > 0 && (
+                  <span className="bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {matches.length}
+                  </span>
+                )}
+              </Link>
+              <Link href="/teams" className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors">
+                <Users className="h-5 w-5" />
+                <span className="font-medium">Teams</span>
+              </Link>
+              <Link href="/profile" className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors">
+                <Settings className="h-5 w-5" />
+                <span className="font-medium">Profile</span>
+              </Link>
+              <button 
+                onClick={handleLogout}
+                className="flex items-center space-x-1 text-gray-600 hover:text-red-600 transition-colors"
+              >
+                <LogOut className="h-5 w-5" />
+                <span className="font-medium">Logout</span>
+              </button>
+            </div>
+          )}
         </div>
       </nav>
 
@@ -357,4 +400,4 @@ export default function DashboardPage() {
       </div>
     </div>
   )
-} 
+}
