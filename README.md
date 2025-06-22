@@ -1,4 +1,6 @@
-# LinkUp - Hackathon Team Matching Platform
+![linkup_logo](https://github.com/user-attachments/assets/9361ade5-b6a6-4057-bd46-d04212f1a2a4)
+
+# Hackathon Team Matching Platform
 
 **🎉 Status: FULLY FUNCTIONAL & READY FOR HACKATHON! 🎉**
 
