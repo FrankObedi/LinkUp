@@ -5,6 +5,7 @@ import { Heart, X, Settings, Users, MessageCircle, LogOut, MapPin, Clock, Code, 
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import Logo from '@/app/components/logo/logo'
 
 // Mock user data
 const currentUser = {
@@ -128,9 +129,7 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
-              <a href='/'>
-                <img src='/img/linkup_logo.png' alt="LinkUp Logo" className="w-[100px] h-auto" />
-              </a>
+              <Logo/>
             </div>
             {/* Hamburger for mobile */}
             <button
@@ -240,6 +239,16 @@ export default function DashboardPage() {
                   }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                   className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden"
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.8}
+                  onDragEnd={(_, info) => {
+                    if (info.offset.x < -100) {
+                      handleSwipe(false) // Swiped left
+                    } else if (info.offset.x > 100) {
+                      handleSwipe(true) // Swiped right
+                    }
+                  }}
                 >
                   {/* Profile Image */}
                   <div className="relative h-80 bg-gradient-to-br from-blue-400 to-purple-500">
