@@ -120,18 +120,6 @@ export default function MatchesPage() {
   const handleAcceptMatch = async (matchId: number) => {
     // Find the match to get their email or unique identifier
     const match = mockMatches.find(m => m.id === matchId)
-    if (!match) return
-
-    // Example: Call your backend API to add to connections
-    // Replace with your actual API endpoint and payload
-    await fetch('/api/connections/add', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userId: session?.user?.email, // or your user id
-        connectionId: matchId,        // or match.email or other unique id
-      }),
-    })
 
     // Hide the card
     setRejectedMatches(prev => [...prev, matchId])
