@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useSession } from "next-auth/react"
+import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from 'framer-motion'
 import { Heart, MessageCircle, Users, ArrowLeft, ExternalLink, Calendar, MapPin, Code, Target, Check, X, Copy } from 'lucide-react'
 import Link from 'next/link'
@@ -93,20 +94,51 @@ export default function MatchesPage() {
   const [filter, setFilter] = useState<MatchStatus>('all')
   const [selectedMatch, setSelectedMatch] = useState<typeof mockMatches[0] | null>(null)
   const [copiedDiscord, setCopiedDiscord] = useState<string | null>(null)
+  const [allProfiles, setAllProfiles] = useState<typeof mockMatches>([])
+  const [profileData, setProfileData] = useState(null)
+  const [rejectedMatches, setRejectedMatches] = useState<number[]>([])
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    // Fetch all users
+    fetch("/api/profile/all")
+      .then(res => res.json())
+      .then(setAllProfiles)
+    // Fetch your profile
+    if (session?.user?.email) {
+      fetch(`/api/profile?email=${encodeURIComponent(session.user.email)}`)
+        .then(res => res.json())
+        .then(setProfileData)
+    }
+  }, [session])
 
   const filteredMatches = mockMatches.filter(match => {
     if (filter === 'all') return true
     return match.status === filter
   })
 
-  const handleAcceptMatch = (matchId: number) => {
-    // In a real app, this would update the backend
-    console.log('Accepting match:', matchId)
+  const handleAcceptMatch = async (matchId: number) => {
+    // Find the match to get their email or unique identifier
+    const match = mockMatches.find(m => m.id === matchId)
+    if (!match) return
+
+    // Example: Call your backend API to add to connections
+    // Replace with your actual API endpoint and payload
+    await fetch('/api/connections/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: session?.user?.email, // or your user id
+        connectionId: matchId,        // or match.email or other unique id
+      }),
+    })
+
+    // Hide the card
+    setRejectedMatches(prev => [...prev, matchId])
   }
 
   const handleRejectMatch = (matchId: number) => {
-    // In a real app, this would update the backend
-    console.log('Rejecting match:', matchId)
+    setRejectedMatches(prev => [...prev, matchId])
   }
 
   const copyDiscord = (discord: string) => {
@@ -181,7 +213,7 @@ export default function MatchesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow"
+                className={`bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow ${rejectedMatches.includes(match.id) ? 'hidden' : ''}`}
               >
                 <div className="p-6">
                   {/* Match Header */}
@@ -450,4 +482,4 @@ export default function MatchesPage() {
       </AnimatePresence>
     </div>
   )
-} 
+}

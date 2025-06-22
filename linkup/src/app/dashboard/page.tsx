@@ -6,6 +6,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Logo from '@/app/components/logo/logo'
+import { useSession } from "next-auth/react"
 
 // Mock user data
 const currentUser = {
@@ -23,6 +24,7 @@ const potentialMatches = [
   {
     id: 1,
     username: 'StackOverflowCopyPaste',
+    email: 'stackoverflowcopypaste@example.com',
     avatar: '/students/jaffar002.png',
     bio: 'I have successfully copied and pasted 47,392 lines of code from Stack Overflow. My debugging technique involves staring at the screen until the bugs get uncomfortable and fix themselves. 🐛',
     skills: ['Ctrl+C', 'Ctrl+V', 'Stack Overflow Premium', 'Console.log Debugging', 'Googling Error Messages'],
@@ -34,6 +36,7 @@ const potentialMatches = [
   {
     id: 2,
     username: 'CaffeinatedCoder',
+    email: 'caffeinatedcoder@example.com',
     avatar: '/students/IMG_0465.jpg',
     bio: 'I run on coffee and broken dreams. My blood type is Java (the drink, not the language). I once stayed awake for 72 hours fixing a semicolon. Currently seeking teammate who can handle my 3 AM "EUREKA!" moments. ☕',
     skills: ['Espresso.js', 'CoffeeScript', 'Red Bull API', 'Insomnia Framework', '24/7 Uptime'],
@@ -45,6 +48,7 @@ const potentialMatches = [
   {
     id: 3,
     username: 'BugWhisperer',
+    email: 'bugwhisperer@example.com',
     avatar: '/students/IMG_0469.jpg',
     bio: 'I speak fluent Bug and can communicate with errors in their native language. My code has more issues than a teenager, but somehow it still works. I believe every bug is just a feature in disguise. 🦗',
     skills: ['Bug Telepathy', 'Error Message Translation', 'Spaghetti Code Architecture', 'Chaos Engineering', 'Murphy\'s Law Implementation'],
@@ -56,6 +60,7 @@ const potentialMatches = [
   {
     id: 4,
     username: 'GitCommitMessiah',
+    email: 'gitcommitmessiah@example.com',
     avatar: '/students/IMG_0471.jpg',
     bio: 'My git commit messages are legendary. "Fixed stuff", "It works on my machine", and "YOLO push to prod" are my greatest hits. I have 47 branches and I\'ve never successfully merged any of them. 🌿',
     skills: ['Git Archaeology', 'Merge Conflict Meditation', 'Branch Hoarding', 'Commit Message Poetry', 'Rebase Roulette'],
@@ -67,6 +72,7 @@ const potentialMatches = [
   {
     id: 5,
     username: 'DockerWhale',
+    email: 'dockerwhale@example.com',
     avatar: '/students/IMG_0474.jpg',
     bio: 'I containerize everything, including my emotions. My Docker images are bigger than my ego (and that\'s saying something). I once tried to dockerize my cat. It works on my container! 🐳',
     skills: ['Container Therapy', 'Kubernetes Yoga', 'Docker Compose Symphony', 'Microservice Meditation', 'Pod Whispering'],
@@ -78,6 +84,7 @@ const potentialMatches = [
   {
     id: 6,
     username: 'AIPromptNinja',
+    email: 'aipromptninja@example.com',
     avatar: '/students/IMG_0475.jpg',
     bio: 'I can make ChatGPT write my code, my emails, and my dating profile. I\'m basically a human-AI translator. My superpower is turning "make it work" into 500 lines of perfectly commented code. 🤖',
     skills: ['Prompt Engineering', 'AI Whispering', 'GPT Therapy', 'Neural Network Negotiations', 'Machine Learning Psychology'],
@@ -94,16 +101,26 @@ export default function DashboardPage() {
   const [matches, setMatches] = useState<number[]>([])
   const [direction, setDirection] = useState<'left' | 'right' | null>(null)
   const [navOpen, setNavOpen] = useState(false)
+  const { data: session } = useSession()
 
   const currentCard = potentialMatches[currentIndex]
 
-  const handleSwipe = (liked: boolean) => {
+  const handleSwipe = async (liked: boolean) => {
     if (!currentCard) return
 
     setDirection(liked ? 'right' : 'left')
-    
-    if (liked) {
+
+    if (liked && session?.user?.email) {
       setMatches([...matches, currentCard.id])
+      // Save pending connection
+      await fetch('/api/connect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fromEmail: session.user.email,
+          toEmail: currentCard.email, // Make sure each card has an email field!
+        }),
+      })
     }
 
     setTimeout(() => {
